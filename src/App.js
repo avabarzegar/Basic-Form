@@ -19,17 +19,12 @@ function App() {
   const [role, setRole] = useState("role");
 
   const getIsFormValid = () => {
-    
-
-    if (
-      firstName.length === 0 ||
-      email.length === 0 ||
-      !validateEmail(email) ||
-      password.value.length < 8 ||
-      role === "role"
-    ) {
-      return false;
-    } else return true;
+    return ( 
+      firstName && 
+      validateEmail(email) && 
+      password.value.length >= 8 && 
+      role !== "role" 
+    ); 
   };
 
   const clearForm = () => {
@@ -90,12 +85,12 @@ function App() {
               type="password"
               value={password.value}
               placeholder="Password"
-              onChange={(e) =>
-                setPassword({
-                  value: e.target.value,
-                  isTouched: true,
-                })
-              }
+              onChange={(e) => { 
+                setPassword({ ...password, value: e.target.value }); 
+              }} 
+              onBlur={() => { 
+                setPassword({ ...password, isTouched: true }); 
+              }} 
             />
             {password.isTouched && password.value.length < 8 ? (
               <PasswordErrorMessage />
